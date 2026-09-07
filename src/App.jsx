@@ -119,128 +119,124 @@
 //   )
 // }
 
-// export default App
-
-// function App() {
-//   return <h1>(Hello World.....)</h1>
-// }
-
-// export default App
-
-
-
-import { FormEvent, useState } from "react";
-import { SITE_URL } from "@/constants";
-import { useNavigate } from "@tanstack/react-router";
-
-export default function SignIn() {
-  const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    setError("");
-
-    if (!email.trim() || !password) {
-      setError("براہِ کرم اپنی ای میل اور پاس ورڈ درج کریں۔");
-      return;
-    }
-
-    try {
-      setLoading(true);
-
-      const response = await fetch(`${SITE_URL}/api/method/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          usr: email.trim(),
-          pwd: password,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data?.message || "ای میل یا پاس ورڈ درست نہیں ہے۔");
-      }
-
-      console.log("کامیابی سے لاگ اِن ہو گئے:", data);
-      await navigate({ to: "/" });
-
-      // اگلے مرحلے میں یہاں navigation اور user session handling شامل کریں گے۔
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "سائن اِن کرتے وقت ایک مسئلہ پیش آیا۔");
-    } finally {
-      setLoading(false);
-    }
-  };
-
+export default function App() {
   return (
-    <div dir="rtl" className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg">
-        <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold text-gray-900">سائن اِن کریں</h1>
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#f4f6f8",
+        padding: "20px",
+      }}
+    >
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "400px",
+          backgroundColor: "#ffffff",
+          padding: "32px",
+          borderRadius: "12px",
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+        }}
+      >
+        <h1
+          style={{
+            marginBottom: "8px",
+            textAlign: "center",
+            fontSize: "28px",
+          }}
+        >
+          Welcome Back
+        </h1>
 
-          <p className="mt-2 text-sm text-gray-500">اپنے ڈیلیوری رسید اکاؤنٹ میں سائن اِن کریں</p>
-        </div>
+        <p
+          style={{
+            marginBottom: "24px",
+            textAlign: "center",
+            color: "#666",
+          }}
+        >
+          Sign in to your account
+        </p>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <label htmlFor="email" className="mb-2 block text-sm font-medium text-gray-700">
-              ای میل
+        <form>
+          <div style={{ marginBottom: "16px" }}>
+            <label
+              htmlFor="email"
+              style={{
+                display: "block",
+                marginBottom: "6px",
+                fontWeight: "500",
+              }}
+            >
+              Email
             </label>
 
             <input
               id="email"
               type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              placeholder="اپنی ای میل درج کریں"
-              autoComplete="email"
-              disabled={loading}
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:bg-gray-100"
+              placeholder="Enter your email"
+              style={{
+                width: "100%",
+                padding: "12px",
+                border: "1px solid #ccc",
+                borderRadius: "8px",
+                fontSize: "16px",
+                boxSizing: "border-box",
+              }}
             />
           </div>
 
-          <div>
-            <label htmlFor="password" className="mb-2 block text-sm font-medium text-gray-700">
-              پاس ورڈ
+          <div style={{ marginBottom: "20px" }}>
+            <label
+              htmlFor="password"
+              style={{
+                display: "block",
+                marginBottom: "6px",
+                fontWeight: "500",
+              }}
+            >
+              Password
             </label>
 
             <input
               id="password"
               type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              placeholder="اپنا پاس ورڈ درج کریں"
-              autoComplete="current-password"
-              disabled={loading}
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:bg-gray-100"
+              placeholder="Enter your password"
+              style={{
+                width: "100%",
+                padding: "12px",
+                border: "1px solid #ccc",
+                borderRadius: "8px",
+                fontSize: "16px",
+                boxSizing: "border-box",
+              }}
             />
           </div>
 
-          {error && (
-            <div className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600">{error}</div>
-          )}
-
           <button
             type="submit"
-            disabled={loading}
-            className="w-full rounded-lg bg-blue-600 px-4 py-3 font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+            style={{
+              width: "100%",
+              padding: "12px",
+              backgroundColor: "#2563eb",
+              color: "#ffffff",
+              border: "none",
+              borderRadius: "8px",
+              fontSize: "16px",
+              fontWeight: "600",
+              cursor: "pointer",
+            }}
           >
-            {loading ? "سائن اِن ہو رہا ہے..." : "سائن اِن کریں"}
+            Sign In
           </button>
         </form>
       </div>
     </div>
   );
 }
+
+
 
